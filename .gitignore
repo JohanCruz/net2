@@ -1,0 +1,69 @@
+# Archivos y carpetas de compilación
+bin/
+obj/
+store/
+
+# Archivos de publicación
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Configuraciones de Visual Studio
+.vs/
+*.vscode/
+*.psess
+*.vsp
+*.pdb
+*.cache
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
+
+# Archivos de lock de JetBrains Rider
+.idea/
+
+# Archivos generados por paquetes NuGet
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Archivos de logs
+*.log
+
+# Archivos de seguridad
+*.pfx
+*.snk
+
+# Archivos de dependencias
+packages/
+*.nupkg
+*.nuspec
+
+# Archivos de test y resultados
+TestResults/
+*.coverage
+*.coveragexml
+
+# Carpetas ocultas
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Archivos de configuración local
+launchSettings.json
+
+# Configs de sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Configs de Docker
+docker-compose.override.yml
+
+# Otros temporales
+*.tmp
+*.bak
+*.old
+*.orig
