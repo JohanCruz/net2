@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using System.IO;
 
-var certificatePath = Path.Combine(AppContext.BaseDirectory, "ssl", "DigiCertGlobalRootCA.crt.pem");
+var certPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ssl", "DigiCertGlobalRootCA.crt.pem");
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -41,19 +41,22 @@ builder.Services.AddSwaggerGen();
 //                     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 //last
 
-var connectionStringBuilder = new MySqlConnectionStringBuilder
+var connectionStringBuilder = new MySqlConnector.MySqlConnectionStringBuilder
 {
     Server = "servidor-mysql.mysql.database.azure.com",
     Database = "bd",
     Port = 3306,
-    UserID = "inicio0admin@servidor-mysql",
-    Password = "TuPasswordFuerte",
-    SslMode = MySqlSslMode.VerifyCA,
-    CertificateFile = certificatePath
+    UserID = "inicio0admin",
+    Password = "kcxBl$$Kbi5OEVdm",
+    SslMode = MySqlConnector.MySqlSslMode.VerifyCA,
+    SslCa = certPath
 };
 
 builder.Services.AddDbContext<ContactlyDbContext>(options =>
-    options.UseMySql(connectionStringBuilder.ConnectionString, ServerVersion.AutoDetect(connectionStringBuilder.ConnectionString))
+    options.UseMySql(
+        connectionStringBuilder.ConnectionString,
+        ServerVersion.AutoDetect(connectionStringBuilder.ConnectionString)
+    )
 );
 
 
