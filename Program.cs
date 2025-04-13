@@ -2,6 +2,11 @@ using Contactly.Data;
 using Contactly.Extensions;
 using Microsoft.EntityFrameworkCore;
 
+using MySqlConnector;
+using System.IO;
+
+var certificatePath = Path.Combine(AppContext.BaseDirectory, "ssl", "DigiCertGlobalRootCA.crt.pem");
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
@@ -20,7 +25,9 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddDbContextPool<ContactlyDbContext>(options => 
 //options.UseMySql(_GetConnStringName, ServerVersion.AutoDetect(_GetConnStringName)));
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// last var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+
 //builder.Services.AddDbContext<ContactlyDbContext>(options =>
 //    options.UseMySql(
 //        connectionString,
@@ -28,9 +35,27 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 //        options => options.EnableRetryOnFailure()
 //    )
 //);
+//last
+//builder.Services.AddDbContext<ContactlyDbContext>(options =>
+//    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+//                     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
+//last
+
+var connectionStringBuilder = new MySqlConnectionStringBuilder
+{
+    Server = "servidor-mysql.mysql.database.azure.com",
+    Database = "bd",
+    Port = 3306,
+    UserID = "inicio0admin@servidor-mysql",
+    Password = "TuPasswordFuerte",
+    SslMode = MySqlSslMode.VerifyCA,
+    CertificateFile = certificatePath
+};
+
 builder.Services.AddDbContext<ContactlyDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-                     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
+    options.UseMySql(connectionStringBuilder.ConnectionString, ServerVersion.AutoDetect(connectionStringBuilder.ConnectionString))
+);
+
 
 //builder.Services.AddDbContext<ContactlyDbContext>(options =>
 //options.UseInMemoryDatabase("ContactsDb"));
